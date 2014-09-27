@@ -12,7 +12,7 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   }
 
   refSuperClasses <- superClasses[isRefSuperClass]
-  # otherRefClasses <- getRefSuperClasses(refSuperClasses, superClassDefs[isRefSuperClass])
+  otherRefClasses <- get_all_ref_superclasses(refSuperClasses, superClassDefs[isRefSuperClass])
 
 }
 
@@ -50,5 +50,17 @@ get_superclasses_information <- function(contains, where) {
        isRefSuperClass = vapply(superclass_definitions,
                                 function(def) is(def, 'refClassRepresentation'),
                                 logical(1)))
+}
+
+#' Get all reference superclass definitions from the inheritance chain.
+#' 
+#' Given a list of reference class definitions, fetch all superclass
+#' definitions from the inheritance chain.
+#'
+#' @param superClassDefs list. The list of respective class definitions.
+#' @return a full character vector of superclasses in the inheritance chain,
+get_all_ref_superclasses <- function(superClassDefs) {
+  c(recursive = TRUE, lapply(seq_along(classes),
+    function(i) superClassDefs[[i]]@refSuperClasses))
 }
 

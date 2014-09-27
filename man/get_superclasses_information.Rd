@@ -12,13 +12,16 @@ get_superclasses_information(contains, where)
 # TODO: (RK) Provide ability to look for super classes in multiple environments?}
 }
 \value{
-a list with keys \code{superClasses} and \code{isRefSuperClass}
- indicating a character vector of super class names and whether
- each is a defined reference class or not.
+a list with keys \code{superClasses}, \code{isRefSuperClass}
+ indicating a character vector of super class names, whether
+ each is a defined reference class or not, and the super class definitions,
+ respectively.
 }
 \description{
-Provide a list containing \code{superClasses} (the actual class names)
-and \code{isRefSuperClass}, a vector of logicals indicating
-whether each superclass is a reference class.
+Provide a list containing \code{superClasses}, (the actual class names)
+\code{isRefSuperClass}, a vector of logicals indicating
+whether each superclass is a reference class,
+and \code{superClassDefs}, containing the actual superclass
+definitions.
 }
 
