@@ -30,9 +30,11 @@ names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE) {
     if (is.null(propNames))
       gettextf("No %s names supplied", what)
     else if (!all(nzchar(propNames)))
-      gettextf("All %s names must be nonempty in:\n(%s)", what)
+      gettextf("All %s names must be nonempty in:\n(%s)", what,
+               paste(sQuote(propNames), collapse = ", "))
     else if (any(duplicated(propNames))) 
-      gettextf("All %s names must be distinct in:\n(%s)", what)
+      gettextf("All %s names must be distinct in:\n(%s)", what,
+               paste(sQuote(propNames), collapse = ", "))
   if (!is.null(error_message)) {
     if (!identical(error, FALSE))
       stop(error_message, call. = FALSE, domain = NA)
