@@ -48,6 +48,6 @@ stopifnot(identical(format_types_list(c(a = 'character', b = 'data.frame')),
 stopifnot(identical(format_types_list(c('a', 'b')), list(a = 'ANY', b = 'ANY')))
 stopifnot(identical(format_types_list(list(a = 'character')), list(a = 'character')))
 # The following will error because of duplicate names:
-format_types_list(list(a = 'character', b = 'character'))
+# format_types_list(list(a = 'character', a = 'character'))
 }
 

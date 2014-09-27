@@ -30,13 +30,14 @@
 #'   to give more descriptive error messages.
 #' @return a list that is guaranteed to have distinct non-zero length
 #'   names and values that are of type character of length 1.
+#' @export
 #' @examples
 #' stopifnot(identical(format_types_list(c(a = 'character', b = 'data.frame')),
 #'   list(a = 'character', b = 'data.frame')))
 #' stopifnot(identical(format_types_list(c('a', 'b')), list(a = 'ANY', b = 'ANY')))
 #' stopifnot(identical(format_types_list(list(a = 'character')), list(a = 'character')))
 #' # The following will error because of duplicate names:
-#' format_types_list(list(a = 'character', a = 'character'))
+#' # format_types_list(list(a = 'character', a = 'character'))
 format_types_list <- function(props, what = "fields") {
   # If an unnamed vector of characters, assume these are the names
   # and the types are all ANY.
