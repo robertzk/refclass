@@ -46,11 +46,22 @@ setRefClass <- function(Class, fields = character(), contains = character(),
 
   # Get the classGeneratorFunction from setClass
   class_function <- setClass(Class, contains = superClasses, where = where, ...)
+  
+  class_definition <- new("refClassRepresentation",
+    getClassDef(Class, where = where), fieldClasses = fieldClasses,
+    refMethods = to_env(refMethods), fieldPrototypes = to_env(fieldPrototypes),
+    refSuperClasses = refSuperClasses)
 
+  assignClassDef(Class, classDef, where)
 
+  generator <- new("refGeneratorSlot")
+  env <- as.environment(generator)
+  env$def <- class_definition; env$className <- Class
 
-  NULL
+  declare_variables(class_definition, where)
+  invisible(new("refObjectGenerator", classFun, generator = generator))
 }
 
 # TODO: (RK) Implement.
 ref_class_information <- function(...) { }
+
