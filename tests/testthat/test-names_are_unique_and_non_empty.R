@@ -32,3 +32,8 @@ test_that('it correctly uses the what parameter', {
                'field names')
 })
 
+test_that('it correctly uses the character.only', {
+  expect_true(names_are_unique_and_non_empty(c('a','b'), character.only = TRUE))
+  expect_false(names_are_unique_and_non_empty(c('a','a'), character.only = TRUE))
+})
+

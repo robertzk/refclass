@@ -12,6 +12,9 @@
 #' @param error logical. Whether or not to error if the names of the \code{obj}
 #'   are not unique and non-empty. The default is \code{FALSE}, in which case
 #'   a \code{logical} of length will be returned.
+#' @param character.only logical. Whether or not to call \code{names} on
+#'   \code{obj} or just treat it as a character vector of names. THe 
+#'   default is \code{FALSE}.
 #' @return If \code{error = TRUE}, an error will be thrown if all the names
 #'   of the \code{obj} are not non-empty and unique. Otherwise, \code{TRUE}
 #'   or \code{FALSE} will be returned according as the names supplied are
@@ -22,9 +25,9 @@
 #' stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2)))
 #' stopifnot(!names_are_unique_and_non_empty(c("")))
 #' stopifnot(!names_are_unique_and_non_empty(list(a = 1, a = 2)))
-names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE) {
+names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE, character.only = FALSE) {
   n <- length(obj)
-  propNames <- names(obj)
+  propNames <- if (isTRUE(character.only)) obj else names(obj)
   if (!n) return (TRUE)
   error_message <-
     if (is.null(propNames))
