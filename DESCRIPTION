@@ -1,0 +1,18 @@
+Package: refclass
+Type: Package
+Title: Refactor of R reference classes
+Version: 0.1
+Author: Robert Krzyzanowski <technoguyrob@gmail.com>
+Maintainer: Robert Krzyzanowski <technoguyrob@gmail.com>
+Authors@R: c(person("Robert", "Krzyzanowski",
+    email = "technoguyrob@gmail.com", role = c("aut", "cre")))
+Description: R's implementation of reference classes is notorious for its
+    inscrutability. This package attempts to refactor reference classes using
+    more sane development practices.
+Depends:
+    R (>= 3.0.2)
+License: MIT
+Suggests:
+    testthat
+LazyData: true
+Roxygen: list(wrap = FALSE)
