@@ -19,9 +19,9 @@
 #' @export
 #' @examples
 #' stopifnot(names_are_unique_and_non_empty(c()))
-#' stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2))
+#' stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2)))
 #' stopifnot(!names_are_unique_and_non_empty(c("")))
-#' stopifnot(!names_are_unique_and_non_empty(list(a = 1, a = 2))
+#' stopifnot(!names_are_unique_and_non_empty(list(a = 1, a = 2)))
 names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE) {
   n <- length(obj)
   propNames <- names(obj)
