@@ -20,5 +20,22 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
 #'  indicating a character vector of super class names and whether
 #'  each is a defined reference class or not.
 get_superclasses_information <- function(contains, where) {
+  superclass_definitions <- lapply(contains, function(what) {
+    if (is(what, 'classRepresentation')) what
+    else if (is.character(what)) getClass(what, where = where)
+    else stop(gettextf("the 'contains' argument should be the names of superclasses: got an element of class %s",
+                       dQuote(class(what)[1])), domain = NA, call. = FALSE)
+  })
+
+  missing_definitions <- vapply(superclass_definitions, is.null, logical(1))
+  if (any(missing_definitions))
+    stop(gettextf("no definition found for inherited class: %s",
+                  paste0('"',contains[missingDefs], '"', collapse = ", ")),
+         domain = NA, call. = FALSE)
+
+  list(superClasses = unlist(lapply(superclass_definitions, function(def) def@className), FALSE),
+       isRefSuperClass = vapply(superclass_definitions,
+                                function(def) is(def, 'refClassRepresentation'),
+                                logical(1)))
 }
 
