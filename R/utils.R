@@ -82,6 +82,20 @@ inject <- function(values, where = parent.frame()) {
   invisible(NULL)
 }
 
+#' Call base::stop with interpolated arguments.
+#'
+#' @param message character. The message to call \code{base::stop} with.
+#' @param ... any instances of \code{"%s"} in \code{message} will be replaced
+#'   with the respective additional arguments.
+#' @param call. logical. Whether or not to show a stack trace. The default is
+#'   \code{TRUE}.
+#' @examples
+#' stopifnot(identical('hello world', tryCatch(error = function(e) e$message,
+#'   simple_error("hello %s", "world"))))
+simple_error <- function(message, ..., call. = TRUE) {
+  stop(gettextf(message, ...), domain = NA, call. = call.)
+}
+
 # A self-reference to this package
 .package <- function() as.environment('package:refclass')
 

@@ -11,8 +11,18 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
     superClassDefs$envRefClass <- getClass("envRefClass", where = .package())
   }
 
+
+  # Get immediate parent classes
   refSuperClasses <- superClasses[isRefSuperClass]
+
+  # Get parent classes inherited from the inheritance chain (parent classes of
+  # parent classes)
   otherRefClasses <- get_all_ref_superclasses(superClassDefs[isRefSuperClass])
+
+  refSuperClasses <- unique(c(refSuperClasses, otherRefClasses))
+  
+  field_names <- names(fields)
+
 
 }
 
