@@ -3,13 +3,13 @@
 \alias{format_types_list}
 \title{Format a list or character vector of types or error if invalid.}
 \usage{
-format_types_list(props, what = "fields")
+format_types_list(props, what = "field")
 }
 \arguments{
 \item{props}{character or list. See full description of this function.}
 
 \item{what}{character. The name of the thing we are creating a
-types list for. The default is \code{"fields"}. This will be used
+types list for. The default is \code{"field"}. This will be used
 to give more descriptive error messages.}
 }
 \value{

@@ -29,7 +29,9 @@ The default is to default is to define no methods (\code{list()}).}
 \item{where}{environment. Where to store the definition of the reference
 class. The default is \code{topenv(parent.frame())}.}
 
-\item{...}{# TODO: (RK) Figure out what this does!}
+\item{...}{additional arguments to the \code{setClass} function call
+that gets called under the hood. (Note that a reference class generator
+is an extension of a classGeneratorFunction in the S3 sense.)}
 }
 \value{
 the fully formed reference class object generator. For example,

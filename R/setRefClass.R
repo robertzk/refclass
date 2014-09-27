@@ -25,7 +25,9 @@
 #'   The default is to default is to define no methods (\code{list()}).
 #' @param where environment. Where to store the definition of the reference
 #'   class. The default is \code{topenv(parent.frame())}.
-#' @param ... # TODO: (RK) Figure out what this does!
+#' @param ... additional arguments to the \code{setClass} function call
+#'   that gets called under the hood. (Note that a reference class generator
+#'   is an extension of a classGeneratorFunction in the S3 sense.)
 #' @return the fully formed reference class object generator. For example,
 #'   if we call \code{x <- setRefClass(...)}, then we can call \code{x$new(...)}
 #'   to invoke the constructor for the object \code{x}. The class of the
@@ -34,5 +36,7 @@
 setRefClass <- function(Class, fields = character(), contains = character(),
                         methods = list(), where = topenv(parent.frame()), ...) {
   fields <- format_types_list(fields, 'field')
+  method_names <- names(methods)
+
   NULL
 }
