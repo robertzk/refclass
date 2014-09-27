@@ -82,3 +82,6 @@ inject <- function(values, where = parent.frame()) {
   invisible(NULL)
 }
 
+# A self-reference to this package
+.package <- function() as.environment('package:refclass')
+

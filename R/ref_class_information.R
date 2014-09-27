@@ -5,6 +5,15 @@
 ref_class_information <- function(Class, contains, fields, refMethods, where) {
   inject(get_superclasses_information(contains, where))
 
+  if (!any(isRefSuperClass)) { # If this is a top-level reference class, brand it
+    superClasses <- c(superClasses, "envRefClass")
+    isRefSuperClass <- c(isRefSuperClass, TRUE)
+    superClassDefs$envRefClass <- getClass("envRefClass", where = .package())
+  }
+
+  refSuperClasses <- superClasses[isRefSuperClass]
+  # otherRefClasses <- getRefSuperClasses(refSuperClasses, superClassDefs[isRefSuperClass])
+
 }
 
 #' Get superclass information.
