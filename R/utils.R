@@ -64,7 +64,11 @@ to_env <- function(x) if (length(x)) as.environment(x) else new.env(FALSE)
 #' @param values list. A named list of values.
 #' @param where environment. Where should we inject this list? The
 #'   default is \code{parent.frame()}, the calling environment.
+#' @export
 #' @return \code{NULL} -- the values will be injected into \code{where}.
+#' @examples
+#' inject(list(a = 1, b = 2))
+#' stopifnot(exists('a') && exists('b'))
 inject <- function(values, where = parent.frame()) {
   if (!is.list(values))
     stop(gettextf("values must be a list; instead I got %s", dQuote(class(values)[1])))
