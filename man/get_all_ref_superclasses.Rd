@@ -10,7 +10,7 @@ get_all_ref_superclasses(superClassDefs)
 }
 \value{
 a full character vector of superclasses in the inheritance chain,
-  obtained by calling \code{refSuperClasses} on the class definitions.
+  obtained by grabbing the slot \code{refSuperClasses} on the class definitions.
 }
 \description{
 Given a list of reference class definitions, fetch all superclass
