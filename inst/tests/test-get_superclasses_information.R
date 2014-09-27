@@ -23,6 +23,9 @@ test_that('it can get the superclass information for a simple example', {
           superClasses = c('test__a', 'test__b'),
           isRefSuperClass = c(FALSE, TRUE))
   )
+
+  removeClass('test__a')
+  removeClass('test__b')
 })
 
 
