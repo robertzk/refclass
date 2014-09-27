@@ -8,18 +8,8 @@
 #'
 #' The following are valid formats:
 #'
-#' \itemize{
-#'   \item{"character"}{"A named character vector with non-empty and distinct
-#'     names.}
-#'   \item{"list"}{"A named list with non-empty and distinct names, and
-#'      character values of length 1."}
-#'   \item{"unnamed character"}{"A totally unnamed character vector with
-#'      non-empty and distinct values. These will be turned into the names
-#'      of a character vector with values \code{'ANY'}.
-#'   }
+#' \items{
 #' }
-#'
-#' 
 #'
 #' # TODO: (RK) Figure out what inferring means...
 #'

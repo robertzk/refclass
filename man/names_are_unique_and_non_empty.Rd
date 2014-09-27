@@ -3,7 +3,8 @@
 \alias{names_are_unique_and_non_empty}
 \title{Verify that the names of the given object are non-empty and distinct.}
 \usage{
-names_are_unique_and_non_empty(obj, what = "", error = FALSE)
+names_are_unique_and_non_empty(obj, what = "", error = FALSE,
+  character.only = FALSE)
 }
 \arguments{
 \item{obj}{any R object that has \code{names}.}
@@ -16,6 +17,10 @@ is \code{""}.}
 \item{error}{logical. Whether or not to error if the names of the \code{obj}
 are not unique and non-empty. The default is \code{FALSE}, in which case
 a \code{logical} of length will be returned.}
+
+\item{character.only}{logical. Whether or not to call \code{names} on
+\code{obj} or just treat it as a character vector of names. THe
+default is \code{FALSE}.}
 }
 \value{
 If \code{error = TRUE}, an error will be thrown if all the names
@@ -30,8 +35,8 @@ none must be empty, and they must all be distinct.
 }
 \examples{
 stopifnot(names_are_unique_and_non_empty(c()))
-stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2))
+stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2)))
 stopifnot(!names_are_unique_and_non_empty(c("")))
-stopifnot(!names_are_unique_and_non_empty(list(a = 1, a = 2))
+stopifnot(!names_are_unique_and_non_empty(list(a = 1, a = 2)))
 }
 
