@@ -26,7 +26,7 @@
 #'
 #' @param props character or list. See full description of this function.
 #' @param what character. The name of the thing we are creating a
-#'   types list for. The default is \code{"fields"}. This will be used
+#'   types list for. The default is \code{"field"}. This will be used
 #'   to give more descriptive error messages.
 #' @return a list that is guaranteed to have distinct non-zero length
 #'   names and values that are of type character of length 1.
@@ -38,7 +38,7 @@
 #' stopifnot(identical(format_types_list(list(a = 'character')), list(a = 'character')))
 #' # The following will error because of duplicate names:
 #' # format_types_list(list(a = 'character', a = 'character'))
-format_types_list <- function(props, what = "fields") {
+format_types_list <- function(props, what = "field") {
   # If an unnamed vector of characters, assume these are the names
   # and the types are all ANY.
   if (is.character(props) && is.null(names(props)))

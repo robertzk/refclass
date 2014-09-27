@@ -33,5 +33,6 @@
 #' # TODO: (RK) More documentation and examples.
 setRefClass <- function(Class, fields = character(), contains = character(),
                         methods = list(), where = topenv(parent.frame()), ...) {
+  fields <- format_types_list(fields, 'field')
   NULL
 }
