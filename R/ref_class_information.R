@@ -33,7 +33,7 @@ get_superclasses_information <- function(contains, where) {
                   paste0('"',contains[missingDefs], '"', collapse = ", ")),
          domain = NA, call. = FALSE)
 
-  list(superClasses = unlist(lapply(superclass_definitions, function(def) def@className), FALSE),
+  list(superClasses = vapply(superclass_definitions, function(def) def@className, character(1)),
        isRefSuperClass = vapply(superclass_definitions,
                                 function(def) is(def, 'refClassRepresentation'),
                                 logical(1)))
