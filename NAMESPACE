@@ -2,3 +2,4 @@
 
 export(format_types_list)
 export(names_are_unique_and_non_empty)
+export(setRefClass)

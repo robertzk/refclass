@@ -55,3 +55,16 @@ names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE, charac
 #'   and values coming from the respective values of \code{x}.
 to_env <- function(x) if (length(x)) as.environment(x) else new.env(FALSE)
 
+#' Inject a list into the current environment.
+#'
+#' For example, if we call this function with \code{list(a = 1, b = 2)},
+#' it will create local variables \code{a} and \code{b} with
+#' values \code{1} and \code{2}, respectively.
+#'
+#' @param values list. A named list of values.
+#' @param where environment. Where should we inject this list? The
+#'   default is \code{parent.frame()}, the calling environment.
+#' @return none -- the values will be injected into \code{where}.
+inject <- function(values, where) {
+
+}

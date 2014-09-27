@@ -28,6 +28,7 @@
 #' @param ... additional arguments to the \code{setClass} function call
 #'   that gets called under the hood. (Note that a reference class generator
 #'   is an extension of a classGeneratorFunction in the S3 sense.)
+#' @export
 #' @return the fully formed reference class object generator. For example,
 #'   if we call \code{x <- setRefClass(...)}, then we can call \code{x$new(...)}
 #'   to invoke the constructor for the object \code{x}. The class of the
@@ -63,6 +64,5 @@ setRefClass <- function(Class, fields = character(), contains = character(),
 }
 
 # TODO: (RK) Implement.
-ref_class_information <- function(...) { }
 declare_variables <- function(...) { }
 
