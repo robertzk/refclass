@@ -19,3 +19,6 @@ test_that('it correctly formats a list example', {
   expect_identical(format_types_list(list(a = 'character')), list(a = 'character'))
 })
 
+test_that('it errors when a duplicate name is given', {
+  expect_error(format_types_list(list(a = 'character', a = 'character')), 'distinct')
+})
