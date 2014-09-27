@@ -59,9 +59,10 @@ setRefClass <- function(Class, fields = character(), contains = character(),
   env$def <- class_definition; env$className <- Class
 
   declare_variables(class_definition, where)
-  invisible(new("refObjectGenerator", classFun, generator = generator))
+  invisible(new("refObjectGenerator", class_function, generator = generator))
 }
 
 # TODO: (RK) Implement.
 ref_class_information <- function(...) { }
+declare_variables <- function(...) { }
 
