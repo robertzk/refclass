@@ -6,9 +6,9 @@
 inferProperties(props, what)
 }
 \arguments{
-\item{props}{}
+\item{props}{ANY}
 
-\item{what}{}
+\item{what}{ANY}
 }
 \description{
 # TODO: (RK) Figure out what inferring means...

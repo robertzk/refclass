@@ -2,8 +2,8 @@
 #'
 #' # TODO: (RK) Figure out what inferring means...
 #'
-#' @param props 
-#' @param what
+#' @param props ANY
+#' @param what ANY
 inferProperties <- function(props, what) {
 
   NULL

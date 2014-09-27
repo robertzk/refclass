@@ -4,7 +4,6 @@
 #' function is handy for any verification of hash-like names: that is,
 #' none must be empty, and they must all be distinct.
 #'
-#'
 #' @param obj any R object that has \code{names}.
 #' @param what character. A description to use when \code{error = TRUE}.
 #'   For example, if \code{what = "field"} and no names were supplied,
@@ -17,6 +16,7 @@
 #'   of the \code{obj} are not non-empty and unique. Otherwise, \code{TRUE}
 #'   or \code{FALSE} will be returned according as the names supplied are
 #'   unique and non-empty.
+#' @export
 #' @examples
 #' stopifnot(names_are_unique_and_non_empty(c()))
 #' stopifnot(names_are_unique_and_non_empty(list(a = 1, b = 2))
