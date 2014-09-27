@@ -5,6 +5,6 @@
 #' @param props 
 #' @param what
 inferProperties <- function(props, what) {
+
   NULL
 }
-
