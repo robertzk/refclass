@@ -6,7 +6,7 @@
 #' ensure that format is correct, make small modifications if necessary,
 #' and error if there are problems.
 #'
-#' The following are valid formats:
+#' The following are valid formats for \code{props}:
 #'
 #' \itemize{
 #'   \item{"character"}{"A named character vector with non-empty and distinct
@@ -38,7 +38,16 @@
 #' # The following will error because of duplicate names:
 #' format_types_list(list(a = 'character', b = 'character'))
 format_types_list <- function(props, what = "fields") {
+  # If an unnamed vector of characters, assume these are the names
+  # and the types are all ANY.
+  if (is.character(props) && is.null(names(props)))
+    props <- setNames(rep('ANY', length(props)), props)
 
-  NULL
+  if (!is.character(props) && !is.list(props))
+    stop(gettextf("argument %s must be a list or a character vector; got an object of class %s",
+                  dQuote(what), dQuote(class(fields)[1])), domain = NA, call. = FALSE)
+
+  names_are_unique_and_non_empty(props, what, error = TRUE)
+  as.list(props)
 }
 
