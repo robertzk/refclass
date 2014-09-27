@@ -40,3 +40,4 @@ setRefClass <- function(Class, fields = character(), contains = character(),
 
   NULL
 }
+
