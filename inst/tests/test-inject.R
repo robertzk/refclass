@@ -20,3 +20,12 @@ test_that('it errors when a list with duplicate or empty names is given', {
   expect_error(inject(list(a = 1, 2)))
   expect_error(inject(list(a = 1, a = 2)))
 })
+
+test_that('it can inject into a non-default environment', {
+  tmp <- new.env(FALSE)
+  inject(list(a = 1, b = 2), where = tmp)
+  expect_equal(tmp$a, 1)
+  expect_equal(tmp$b, 2)
+})
+
+
