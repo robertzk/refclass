@@ -1,2 +1,2 @@
 library(testthat)
-test_package('R-reference-classes')
+test_package('refclass')

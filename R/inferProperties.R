@@ -18,14 +18,27 @@
 #'      of a character vector with values \code{'ANY'}.
 #'   }
 #' }
-#'
 #' 
+#' If the provided \code{props} does not satisfy any of these, an error
+#' will be invoked.
 #'
 #' # TODO: (RK) Figure out what inferring means...
 #'
-#' @param props ANY
-#' @param what ANY
-format_types_list <- function(props, what) {
+#' @param props character or list. See full description of this function.
+#' @param what character. The name of the thing we are creating a
+#'   types list for. The default is \code{"fields"}. This will be used
+#'   to give more descriptive error messages.
+#' @return a list that is guaranteed to have distinct non-zero length
+#'   names and values that are of type character of length 1.
+#' @examples
+#' stopifnot(identical(format_types_list(c(a = 'character', b = 'data.frame')),
+#'   list(a = 'character', b = 'data.frame')))
+#' stopifnot(identical(format_types_list(c('a', 'b')), list(a = 'ANY', b = 'ANY')))
+#' stopifnot(identical(format_types_list(list(a = 'character')), list(a = 'character')))
+#' # The following will error because of duplicate names:
+#' format_types_list(list(a = 'character', b = 'character'))
+format_types_list <- function(props, what = "fields") {
 
   NULL
 }
+
