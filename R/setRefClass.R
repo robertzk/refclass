@@ -38,6 +38,19 @@ setRefClass <- function(Class, fields = character(), contains = character(),
   fields <- format_types_list(fields, 'field')
   method_names <- names(methods)
 
+  class_info <- ref_class_information(Class, contains, fields, methods, where)
+
+  # Make codetools happy.
+  requires <- c("superClasses", "refSuperClasses", "fieldClasses", "fieldPrototypes", "refMethods")
+  for (i in requires) assign(i, class_info[[i]])
+
+  # Get the classGeneratorFunction from setClass
+  class_function <- setClass(Class, contains = superClasses, where = where, ...)
+
+
+
   NULL
 }
 
+# TODO: (RK) Implement.
+ref_class_information <- function(...) { }

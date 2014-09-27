@@ -45,3 +45,13 @@ names_are_unique_and_non_empty <- function(obj, what = "", error = FALSE, charac
   } else TRUE
 }
 
+#' Convert a list to an environment.
+#'
+#' If the list if of length 0, be careful to not use \code{as.environment}
+#' as it will break.
+#'
+#' @param x list. The list to convert to an environment.
+#' @return an environment with keys coming from the names of \code{x}
+#'   and values coming from the respective values of \code{x}.
+to_env <- function(x) if (length(x)) as.environment(x) else new.env(FALSE)
+
