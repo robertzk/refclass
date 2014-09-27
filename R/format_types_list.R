@@ -45,8 +45,9 @@ format_types_list <- function(props, what = "fields") {
 
   if (!is.character(props) && !is.list(props))
     stop(gettextf("argument %s must be a list or a character vector; got an object of class %s",
-                  dQuote(what), dQuote(class(fields)[1])), domain = NA, call. = FALSE)
+                  dQuote(what), dQuote(class(props)[1])), domain = NA, call. = FALSE)
 
   names_are_unique_and_non_empty(props, what, error = TRUE)
   as.list(props)
 }
+
