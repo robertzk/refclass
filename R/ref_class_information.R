@@ -19,11 +19,43 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   # parent classes)
   otherRefClasses <- get_all_ref_superclasses(superClassDefs[isRefSuperClass])
 
+  # Get full inheritance chain.
   refSuperClasses <- unique(c(refSuperClasses, otherRefClasses))
   
-  field_names <- names(fields)
+  # Parse the fields to, e.g., determine if fields of type ANY need to be
+  # initialized as uninitializedField instances.
+  parsed_fields <- lapply(seq_along(fields),
+                          function(i) process_field(names(fields)[[i]], fields[[i]]))
 
+  field_information <- 
+    process_field_information(fieldClasses, fieldPrototypes, superClassDefs[isRefSuperClass])
+  class_methods <- field_information$classMethods
+  field_information$classMethods <- NULL
 
+  class_methods <- inject_standard_class_methods(class_methods, Class,
+    refMethods, names(field_information$fieldClasses), TRUE)
+
+  c(list(superClasses = superClasses, refSuperClasses = refSuperClasses),
+    field_information, list(refMethods = class_methods))
+}
+
+process_field_information <- function(fieldClasses, fieldPrototypes, superClassDefs) {
+  field_classes <- field_prototypes <- class_methods <- list()
+  # Starting backwards, so nearer superclasses override closer super classes,
+  # assign the above to this class.
+  for (klass in rev(superClassDefs)) {
+    field_classnames <- klass@fieldClasses
+    field_prototypes <- as.list(klass@fieldPrototypes, all.names = TRUE)
+    class_methods_list <- as.list(klass@refMethods, all.names = TRUE)
+    insertFields(field_classes) <- field_classnames
+    field_prototypes[names(field_prototypes)] <- field_prototypes
+    class_methods[names(class_methods_list)] <- class_methods_list
+  }
+  insertFields(field_classes) <- fieldClasses
+  field_prototypes[names(fieldPrototypes)] <- fieldPrototypes
+  
+  list(fieldClasses = field_classes, fieldPrototypes = field_prototypes,
+       refMethods = class_methods)
 }
 
 #' Get superclass information.
