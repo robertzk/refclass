@@ -5,12 +5,6 @@
 ref_class_information <- function(Class, contains, fields, refMethods, where) {
   inject(get_superclasses_information(contains, where))
 
-  if (!any(isRefSuperClass)) { # If this is a top-level reference class, brand it
-    superClasses <- c(superClasses, "envRefClass")
-    isRefSuperClass <- c(isRefSuperClass, TRUE)
-    superClassDefs$envRefClass <- getClass("envRefClass", where = .package())
-  }
-
 
   # Get immediate parent classes
   refSuperClasses <- superClasses[isRefSuperClass]
@@ -66,6 +60,9 @@ process_field_information <- function(fieldClasses, fieldPrototypes, superClassD
 #' and \code{superClassDefs}, containing the actual superclass
 #' definitions.
 #'
+#' Note that \code{envRefClass} will always be one of the returned
+#' superclasses.
+#'
 #' @param contains character. A character vector of super class names.
 #' @param where environment. The environment in which to look for superClasses.
 #'  # TODO: (RK) Provide ability to look for super classes in multiple environments?
@@ -87,11 +84,17 @@ get_superclasses_information <- function(contains, where) {
                   paste0('"',contains[missingDefs], '"', collapse = ", ")),
          domain = NA, call. = FALSE)
 
+  isRefSuperClass <- vapply(superclass_definitions,
+    function(def) is(def, 'refClassRepresentation'), logical(1))
+
+  if (!any(isRefSuperClass)) {
+    superclass_definitions$envRefClass <- getClass("envRefClass", where = .package())
+    isRefSuperClass <- c(isRefSuperClass, TRUE)
+  }
+
   list(superClassDefs = superclass_definitions,
        superClasses = vapply(superclass_definitions, function(def) def@className, character(1)),
-       isRefSuperClass = vapply(superclass_definitions,
-                                function(def) is(def, 'refClassRepresentation'),
-                                logical(1)))
+       isRefSuperClass = isRefSuperClass)
 }
 
 #' Get all reference superclass definitions from the inheritance chain.

@@ -1,8 +1,12 @@
 context('get_superclasses_information')
 
+declassify <-
+  function(x) { x[[1]] <- sapply(x[[1]], function(y) as.character(y@className)); x }
+
 test_that('it returns the trivial stuff on an empty list', {
-  expect_identical(get_superclasses_information(list(), environment()),
-                   list(superClassDefs = list(), superClasses = character(0), isRefSuperClass = logical(0)))
+  expect_identical(declassify(get_superclasses_information(list(), environment())),
+                   list(superClassDefs = c(envRefClass = 'envRefClass'),
+                        superClasses = c(envRefClass = 'envRefClass'), isRefSuperClass = TRUE))
 })
 
 test_that('it gives an error when the contains argument is not convertible to classes', {
@@ -17,8 +21,7 @@ test_that('it can get the superclass information for a simple example', {
   setClass('test__a')
   methods::setRefClass('test__b')
   expect_identical(
-    (function(x) { x[[1]] <- sapply(x[[1]], function(y) as.character(y@className)); x })(
-      get_superclasses_information(c('test__a', 'test__b'), environment())),
+    declassify(get_superclasses_information(c('test__a', 'test__b'), environment())),
      list(superClassDefs = c('test__a', 'test__b'),
           superClasses = c('test__a', 'test__b'),
           isRefSuperClass = c(FALSE, TRUE))
