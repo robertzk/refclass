@@ -13,6 +13,8 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   parsed_fields <- lapply(seq_along(fields),
     function(i) process_field(names(fields)[[i]], fields[[i]]))
 
+  # TODO: (RK) fieldClasses and fieldPrototypes need to come from parsed_fields
+
   field_information <- 
     process_field_information(fieldClasses, fieldPrototypes, superClassDefs[isRefSuperClass])
   class_methods <- field_information$classMethods
