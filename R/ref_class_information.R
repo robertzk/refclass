@@ -5,21 +5,13 @@
 ref_class_information <- function(Class, contains, fields, refMethods, where) {
   inject(get_superclasses_information(contains, where))
 
-
-  # Get immediate parent classes
-  refSuperClasses <- superClasses[isRefSuperClass]
-
-  # Get parent classes inherited from the inheritance chain (parent classes of
-  # parent classes)
-  otherRefClasses <- get_all_ref_superclasses(superClassDefs[isRefSuperClass])
-
   # Get full inheritance chain.
-  refSuperClasses <- unique(c(refSuperClasses, otherRefClasses))
+  refSuperClasses <- get_all_ref_superclasses(superClassDefs[isRefSuperClass])
   
   # Parse the fields to, e.g., determine if fields of type ANY need to be
   # initialized as uninitializedField instances.
   parsed_fields <- lapply(seq_along(fields),
-                          function(i) process_field(names(fields)[[i]], fields[[i]]))
+    function(i) process_field(names(fields)[[i]], fields[[i]]))
 
   field_information <- 
     process_field_information(fieldClasses, fieldPrototypes, superClassDefs[isRefSuperClass])
@@ -58,7 +50,7 @@ process_field_information <- function(fieldClasses, fieldPrototypes, superClassD
 #' \code{isRefSuperClass}, a vector of logicals indicating
 #' whether each superclass is a reference class,
 #' and \code{superClassDefs}, containing the actual superclass
-#' definitions.
+#' definitions, obtained using \code{methods::getClass}.
 #'
 #' Note that \code{envRefClass} will always be one of the returned
 #' superclasses.
@@ -97,16 +89,18 @@ get_superclasses_information <- function(contains, where) {
        isRefSuperClass = isRefSuperClass)
 }
 
-#' Get all reference superclass definitions from the inheritance chain.
+#' Get all reference superclass names from the inheritance chain.
 #' 
-#' Given a list of reference class definitions, fetch all superclass
+#' Given a list of reference class definitions, fetch all class and superclass
 #' definitions from the inheritance chain.
 #'
 #' @param superClassDefs list. The list of respective class definitions.
 #' @return a full character vector of superclasses in the inheritance chain,
 #'   obtained by grabbing the slot \code{refSuperClasses} on the class definitions.
-get_all_ref_superclasses <- function(superClassDefs) {
-  unique(as.character(c(recursive = TRUE, lapply(superClassDefs,
-    function(def) def@refSuperClasses))))
+get_all_ref_classes <- function(superClassDefs) {
+  unique(as.character(c(
+    vapply(superClassDefs, function(def) def@className, character(1)),
+    c(recursive = TRUE, lapply(superClassDefs, function(def) def@refSuperClasses))
+  )))
 }
 
