@@ -74,6 +74,7 @@ parse_fields <- function(fields, where) {
 #'   used for error messages when the \code{field_value} does not validate
 #'   all conditions.)
 #' @param field_value character or function. See \code{fields}.
+#' @return a list with two values, class name and prototype value.
 parse_field <- function(field_name, field_value, where) {
   klass <- prototype <- NULL
   if (is.character(field_value)) {
@@ -98,6 +99,7 @@ parse_field <- function(field_name, field_value, where) {
     simple_error(paste("Field %s was supplied as an object of class %s;",
                        "must be a class name or a binding function"),
                  sQuote(field_name), dQuote(class(field_value)[1]))
+  list(klass, prototype)
 }
 
 #' Get superclass information.
