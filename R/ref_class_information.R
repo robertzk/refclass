@@ -10,8 +10,7 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   
   # Parse the fields to, e.g., determine if fields of type ANY need to be
   # initialized as uninitializedField instances.
-  parsed_fields <- lapply(seq_along(fields),
-    function(i) process_field(names(fields)[[i]], fields[[i]]))
+  parsed_fields <- parse_fields(fields)
 
   # TODO: (RK) fieldClasses and fieldPrototypes need to come from parsed_fields
 
@@ -44,6 +43,23 @@ process_field_information <- function(fieldClasses, fieldPrototypes, superClassD
   
   list(fieldClasses = field_classes, fieldPrototypes = field_prototypes,
        refMethods = class_methods)
+}
+
+#' Parse out field class names and prototypes.
+#'
+#' @param fields list. A named list of \code{character}s or \code{function}s.
+#'    If \code{character}, this represents the class name of the field
+#'    (for example, \code{"data.frame"}). If a function, an active binding
+#'    that will be used for the field prototype. For example, if we have
+#'    a field \code{radius} and a field \code{diameter}, we could set the
+#'    default value of \code{radius} (its prototype) to 
+#'    \code{function() 2 * radius}, which wil be evaluated within the context
+#'    of the reference class environment.
+#' @param field_name character. The name of the field.
+#' @param field_value character or function. See \code{fields}.
+parse_fields <- function(fields) {
+  lapply(seq_along(fields),
+    function(i) parse_field(names(fields)[[i]], fields[[i]]))
 }
 
 #' Get superclass information.
