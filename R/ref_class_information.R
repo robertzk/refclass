@@ -10,7 +10,7 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   
   # Parse the fields to, e.g., determine if fields of type ANY need to be
   # initialized as uninitializedField instances.
-  parsed_fields <- parse_fields(fields)
+  parsed_fields <- parse_fields(fields, where)
 
   # TODO: (RK) fieldClasses and fieldPrototypes need to come from parsed_fields
 
@@ -55,11 +55,49 @@ process_field_information <- function(fieldClasses, fieldPrototypes, superClassD
 #'    default value of \code{radius} (its prototype) to 
 #'    \code{function() 2 * radius}, which wil be evaluated within the context
 #'    of the reference class environment.
-#' @param field_name character. The name of the field.
-#' @param field_value character or function. See \code{fields}.
-parse_fields <- function(fields) {
+#' @param where environment. Where to look for class definitions.
+#' @return a list with three keys, \code{names}, \code{classes} and \code{prototypes} of
+#'    class names and prototypes, respectively. Prototypes are just the
+#'    default values of the respective fields.
+parse_fields <- function(fields, where) {
   lapply(seq_along(fields),
-    function(i) parse_field(names(fields)[[i]], fields[[i]]))
+    function(i) parse_field(names(fields)[[i]], fields[[i]], where))
+}
+
+#' Parse out field class name and prototype.
+#'
+#' A field definition (\code{field_value}) can be either a character or
+#' a binding function (see the \code{fields} parameter).
+#'
+#' @rdname parse_fields
+#' @param field_name character. The name of the field. (This is primarily 
+#'   used for error messages when the \code{field_value} does not validate
+#'   all conditions.)
+#' @param field_value character or function. See \code{fields}.
+parse_field <- function(field_name, field_value, where) {
+  klass <- prototype <- NULL
+  if (is.character(field_value)) {
+    if (length(field_value) != 1)
+      simple_error(paste("A single class name is needed for field %s,",
+        "got a character vector of length %d"), sQuote(field_name), length(field_value))
+    if (is.null(getClassDef(field_value, where = where)))
+      simple_error("Class %s for field %s is not defined", dQuote(field_value), sQuote(field_name))
+    klass <- field_value
+    prototype <-
+      if (klass == "ANY")
+        new("uninitializedField", field = field_name, className = "ANY")
+      else
+        # Making a binding is better than setting a value due to lazy evaluation.
+        # With a binding, the variable wont be instantiated until it is requested
+        # by some method.
+        make_default_binding(field_name, field_value, where)
+  } else if (is.function(field_value)) {
+    klass <- "activeBindingFunction"
+    prototype <- make_active_binding(field_value)
+  } else
+    simple_error(paste("Field %s was supplied as an object of class %s;",
+                       "must be a class name or a binding function"),
+                 sQuote(field_name), dQuote(class(field_value)[1]))
 }
 
 #' Get superclass information.
