@@ -85,7 +85,7 @@ inject <- function(values, where = parent.frame()) {
 #' Call base::stop with interpolated arguments.
 #'
 #' @param message character. The message to call \code{base::stop} with.
-#' @param ... any instances of \code{"%s"} in \code{message} will be replaced
+#' @param ... any instances of \code{"\%s"} in \code{message} will be replaced
 #'   with the respective additional arguments.
 #' @param call. logical. Whether or not to show a stack trace. The default is
 #'   \code{TRUE}.

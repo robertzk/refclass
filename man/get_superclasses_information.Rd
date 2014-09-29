@@ -22,6 +22,10 @@ Provide a list containing \code{superClasses}, (the actual class names)
 \code{isRefSuperClass}, a vector of logicals indicating
 whether each superclass is a reference class,
 and \code{superClassDefs}, containing the actual superclass
-definitions.
+definitions, obtained using \code{methods::getClass}.
+}
+\details{
+Note that \code{envRefClass} will always be one of the returned
+superclasses.
 }
 

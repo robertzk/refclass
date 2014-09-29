@@ -6,7 +6,7 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   inject(get_superclasses_information(contains, where))
 
   # Get full inheritance chain.
-  refSuperClasses <- get_all_ref_superclasses(superClassDefs[isRefSuperClass])
+  refSuperClasses <- get_all_ref_classes(superClassDefs[isRefSuperClass])
   
   # Parse the fields to, e.g., determine if fields of type ANY need to be
   # initialized as uninitializedField instances.
