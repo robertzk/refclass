@@ -12,6 +12,6 @@ make_active_binding(field)
 \code{activeBindingFunction}
 }
 \description{
-Make an active binding for a field.
+#TODO: (RK) Explain activeBindingFunction more
 }
 

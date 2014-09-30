@@ -12,12 +12,15 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   # initialized as uninitializedField instances.
   parsed_fields <- parse_fields(fields, where)
 
-  # TODO: (RK) fieldClasses and fieldPrototypes need to come from parsed_fields
+  fieldNames <- lapply(parsed_fields, `[[`, 3)
+  fieldClasses <- lapply(parsed_fields, `[[`, 1)
+  fieldPrototypes <- lapply(parsed_fields, `[[`, 2)
 
   field_information <- 
-    process_field_information(fieldClasses, fieldPrototypes, superClassDefs[isRefSuperClass])
+    process_field_information(fieldNames, fieldClasses, fieldPrototypes,
+                              superClassDefs[isRefSuperClass])
   class_methods <- field_information$classMethods
-  field_information$classMethods <- NULL
+  field_information$classMethods <- field_information$fieldNames <- NULL
 
   class_methods <- inject_standard_class_methods(class_methods, Class,
     refMethods, names(field_information$fieldClasses), TRUE)
@@ -26,23 +29,37 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
     field_information, list(refMethods = class_methods))
 }
 
-process_field_information <- function(fieldClasses, fieldPrototypes, superClassDefs) {
+
+#' Determine class and prototypes for fields from super class hierarchy.
+#'
+#' If \code{superClassDefs} is a list of parent classes, their definitions will
+#' be traversed in reverse order (so that nearer classes respect the inheritance
+#' chain) and the according field and prototypes extracted.
+#'
+#' @param fieldClasses character. The names for each field.
+#' @param fieldClasses character. The classes for each field.
+#' @param fieldClasses list or function. The prototype for each field
+#'    (i.e. default binding).
+#' @param superClassDefs list. A list of super class definitions (things of
+#'   class \code{refClassRepresentation}, obtained using \code{methods::getClass}.
+process_field_information <- function(fieldNames, fieldClasses, fieldPrototypes, superClassDefs) {
   field_classes <- field_prototypes <- class_methods <- list()
+
   # Starting backwards, so nearer superclasses override closer super classes,
   # assign the above to this class.
   for (klass in rev(superClassDefs)) {
     field_classnames <- klass@fieldClasses
     field_prototypes <- as.list(klass@fieldPrototypes, all.names = TRUE)
     class_methods_list <- as.list(klass@refMethods, all.names = TRUE)
-    insertFields(field_classes) <- field_classnames
+    insert_fields(field_classes) <- field_classnames
     field_prototypes[names(field_prototypes)] <- field_prototypes
     class_methods[names(class_methods_list)] <- class_methods_list
   }
-  insertFields(field_classes) <- fieldClasses
-  field_prototypes[names(fieldPrototypes)] <- fieldPrototypes
+  insert_fields(field_classes) <- fieldClasses
+  field_prototypes[fieldNames] <- fieldPrototypes
   
   list(fieldClasses = field_classes, fieldPrototypes = field_prototypes,
-       refMethods = class_methods)
+       fieldNames = names(field_prototypes), classMethods = class_methods)
 }
 
 #' Parse out field class names and prototypes.
@@ -90,8 +107,8 @@ parse_field <- function(field_name, field_value, where) {
       else
         # Making a binding is better than setting a value due to lazy evaluation.
         # With a binding, the variable wont be instantiated until it is requested
-        # by some method.
-        make_default_binding(field_name, field_value, where)
+        # by some method. # TODO: (RK) This is false... this is something different.
+        make_default_binding(field_name, field_value, TRUE, where) 
   } else if (is.function(field_value)) {
     klass <- "activeBindingFunction"
     prototype <- make_active_binding(field_value)
@@ -102,6 +119,11 @@ parse_field <- function(field_name, field_value, where) {
 
   list(klass, prototype)
 }
+
+# TODO: (RK) Implement.
+`insert_fields<-` <- function(fields, value) {  }
+inject_standard_class_methods <- function(class_methods, class_name,
+  instance_methods, field_names, once) { } 
 
 #' Get superclass information.
 #'
