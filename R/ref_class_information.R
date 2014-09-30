@@ -19,15 +19,17 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   field_information <- 
     process_field_information(fieldNames, fieldClasses, fieldPrototypes,
                               superClassDefs[isRefSuperClass])
+
+  class_methods <- generate_class_methods(field_information$classMethods, Class,
+    refMethods, field_information$fieldNames, TRUE)
+
   class_methods <- field_information$classMethods
   field_information$classMethods <- field_information$fieldNames <- NULL
-
-  class_methods <- inject_standard_class_methods(class_methods, Class,
-    refMethods, names(field_information$fieldClasses), TRUE)
 
   c(list(superClasses = superClasses, refSuperClasses = refSuperClasses),
     field_information, list(refMethods = class_methods))
 }
+
 #' Determine class and prototypes for fields from super class hierarchy.
 #'
 #' If \code{superClassDefs} is a list of parent classes, their definitions will
@@ -120,8 +122,6 @@ parse_field <- function(field_name, field_value, where) {
 
 # TODO: (RK) Implement.
 `insert_fields<-` <- function(fields, value) {  }
-inject_standard_class_methods <- function(class_methods, class_name,
-  instance_methods, field_names, once) { } 
 
 #' Get superclass information.
 #'
