@@ -28,8 +28,6 @@ ref_class_information <- function(Class, contains, fields, refMethods, where) {
   c(list(superClasses = superClasses, refSuperClasses = refSuperClasses),
     field_information, list(refMethods = class_methods))
 }
-
-
 #' Determine class and prototypes for fields from super class hierarchy.
 #'
 #' If \code{superClassDefs} is a list of parent classes, their definitions will
