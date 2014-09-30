@@ -15,10 +15,20 @@
 make_default_binding <- function(field_name, field_class, read_only = FALSE, where) {
   meta_name <- paste0(".->", field_name)
 
-  if (!identical(read_only, FALSE)) {
-    f <- eval(substitute(function(value) {
-      if (missing(value)) dummy_field_name
-      #else methods:::
-    }))
-  }
+  f <- eval(substitute(function(value) {
+    if (missing(value)) dummy_field_name
+    else refclass::::set_dummy_field(.self, dummy_field, dummy_class, this_field, is_read_only, value)
+  }, list(dummy_field = meta_name, this_field = field_name,
+          dummy_class = field_class, dummy_field_name = as.name(meta_name))
+  ))
+
+  environment(f) <- where
+  f <- new("defaultBindingFunction", f, field = field_name, className = field_class)
+  init <-
+    if (isVirtualClass(field_class))
+      new("uninitializedField", field = field_name, className = field_class)
+    else new(field_class)
+
+  setNames(list(f, init), c(field_name, meta_name))
 }
+
