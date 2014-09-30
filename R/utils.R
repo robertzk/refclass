@@ -107,6 +107,19 @@ simple_error <- function(message, ..., call. = TRUE) {
 #' @return No return value -- the \code{self} environment gets modified to
 #'   contain a \code{meta_name} value.
 set_dummy_field <- function(self, meta_name, field_class, field_name, only_once, value) {
+  if (is(value, field_class)) value <- as(value, field_class, strict = FALSE)
+  else simple_error("Invalid assignment for reference class field %s, should be from class %s or a subclass (was class %s)",
+                    sQuote(field_name), dQuote(field_class[1]), dQuote(class(value)[1]))
+  self <- as.environment(self)
+  if (isTRUE(only_once)) {
+    if (bindingIsLocked(meta_name, self))
+      simple_error("Invalid replacement: reference class field %s is read-only", sQuote(field_name))
+    else {
+      assign(meta_name, value, envir = self)
+      lockBinding(meta_name, self)
+    }
+  }
+  else assign(meta_name, value, envir = self)
 }
 
 # A self-reference to this package
