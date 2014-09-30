@@ -17,7 +17,7 @@ make_default_binding <- function(field_name, field_class, read_only = FALSE, whe
 
   f <- eval(substitute(function(value) {
     if (missing(value)) dummy_field_name
-    else refclass::::set_dummy_field(.self, dummy_field, dummy_class, this_field, is_read_only, value)
+    else refclass:::set_dummy_field(.self, dummy_field, dummy_class, this_field, is_read_only, value)
   }, list(dummy_field = meta_name, this_field = field_name,
           dummy_class = field_class, dummy_field_name = as.name(meta_name))
   ))
@@ -30,5 +30,14 @@ make_default_binding <- function(field_name, field_class, read_only = FALSE, whe
     else new(field_class)
 
   setNames(list(f, init), c(field_name, meta_name))
+}
+
+#' Make an active binding for a field.
+#'
+#' @param field activeBindingFunction or character.
+#' @return \code{activeBindingFunction}
+make_active_binding <- function(field) {
+  if (is(field, "activeBindingFunction")) field
+  else new("activeBindingFunction", field)
 }
 
