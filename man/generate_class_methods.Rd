@@ -16,7 +16,9 @@ belong to.}
 \item{instance_methods}{list. Additional methods provided by the
 \code{methods} parameter to \code{setRefClass}.}
 
-\item{field_names}{character. The names of the fields in the class.}
+\item{field_names}{character. The names of the fields in the class.
+Used to verify fields are not getting incorrectly assigned with
+local (\code{<-}) instead of global (\code{<<-}) assignment.}
 
 \item{return_all}{logical. Whether or not to return all methods.
 # TODO: (RK) What does this mean?}
