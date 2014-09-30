@@ -18,7 +18,9 @@ with the respective additional arguments.}
 Call base::stop with interpolated arguments.
 }
 \examples{
+\dontrun{
 stopifnot(identical('hello world', tryCatch(error = function(e) e$message,
   simple_error("hello \%s", "world"))))
+}
 }
 
