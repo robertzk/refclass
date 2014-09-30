@@ -99,6 +99,7 @@ parse_field <- function(field_name, field_value, where) {
     simple_error(paste("Field %s was supplied as an object of class %s;",
                        "must be a class name or a binding function"),
                  sQuote(field_name), dQuote(class(field_value)[1]))
+
   list(klass, prototype)
 }
 

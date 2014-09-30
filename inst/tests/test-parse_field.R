@@ -17,3 +17,9 @@ test_that('it creates an activeBindingFunction when the field value is a functio
   pending()
 })
 
+test_that("it errors when neither a character nor function was passed as a field value", {
+  expect_error(parse_field("foo", 1, environment()), "must be a class name or a binding function")
+})
+
+
+          
