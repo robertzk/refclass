@@ -90,8 +90,10 @@ inject <- function(values, where = parent.frame()) {
 #' @param call. logical. Whether or not to show a stack trace. The default is
 #'   \code{TRUE}.
 #' @examples
+#' \dontrun{
 #' stopifnot(identical('hello world', tryCatch(error = function(e) e$message,
 #'   simple_error("hello %s", "world"))))
+#' }
 simple_error <- function(message, ..., call. = TRUE) {
   stop(gettextf(message, ...), domain = NA, call. = call.)
 }
