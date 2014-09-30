@@ -96,6 +96,19 @@ simple_error <- function(message, ..., call. = TRUE) {
   stop(gettextf(message, ...), domain = NA, call. = call.)
 }
 
+#' Set a dummy field.
+#'
+#' @param self environment. The environment of the reference class objet.
+#' @param meta_name character. The name to bind the dummy field to.
+#' @param field_class character. The class of the field.
+#' @param field_name character. The name of the field.
+#' @param only_once logical. Whether or not to set the dummy field only once.
+#' @param value The R object to bind to the dummy \code{field_name}.
+#' @return No return value -- the \code{self} environment gets modified to
+#'   contain a \code{meta_name} value.
+set_dummy_field <- function(self, meta_name, field_class, field_name, only_once, value) {
+}
+
 # A self-reference to this package
 .package <- function() as.environment('package:refclass')
 

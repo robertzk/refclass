@@ -14,4 +14,11 @@
 #'    class or \code{new(field_class)} otherwise.
 make_default_binding <- function(field_name, field_class, read_only = FALSE, where) {
   meta_name <- paste0(".->", field_name)
+
+  if (!identical(read_only, FALSE)) {
+    f <- eval(substitute(function(value) {
+      if (missing(value)) dummy_field_name
+      #else methods:::
+    }))
+  }
 }
