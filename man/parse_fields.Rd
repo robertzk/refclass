@@ -30,6 +30,8 @@ all conditions.)}
 a list with three keys, \code{names}, \code{classes} and \code{prototypes} of
    class names and prototypes, respectively. Prototypes are just the
    default values of the respective fields.
+
+a list with two values, class name and prototype value.
 }
 \description{
 Parse out field class names and prototypes.
